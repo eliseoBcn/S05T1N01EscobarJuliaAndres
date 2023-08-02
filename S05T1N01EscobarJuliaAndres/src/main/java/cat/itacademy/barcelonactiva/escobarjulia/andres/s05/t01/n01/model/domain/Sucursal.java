@@ -16,11 +16,11 @@ public class Sucursal {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long pk_SucursalID;
 
-	@Column(name = "nomSucursal")
+	@Column(name = "nomSucursal", length = 50, unique = true )
 	private String nomSucursal;
 
-	@Column(name = "paisSucursal")
-	private int paisSucursal;
+	@Column(name = "paisSucursal", length = 50 ,nullable = false)
+	private String  paisSucursal;
 	
 	public Sucursal() {
 		// TODO Auto-generated constructor stub
@@ -42,10 +42,10 @@ public class Sucursal {
 		this.nomSucursal = nomSucursal;
 	}
 
-	public int getPaisSucursal() {
+	public String  getPaisSucursal() {
 		return paisSucursal;
 	}
-	public void setPaisSucursal(int paisSucursal) {
+	public void setPaisSucursal(String  paisSucursal) {
 		this.paisSucursal = paisSucursal;
 	}
 

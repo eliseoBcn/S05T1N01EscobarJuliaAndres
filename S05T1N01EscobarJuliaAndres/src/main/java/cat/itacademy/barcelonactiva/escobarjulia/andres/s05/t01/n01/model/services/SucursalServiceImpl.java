@@ -1,5 +1,6 @@
 package cat.itacademy.barcelonactiva.escobarjulia.andres.s05.t01.n01.model.services;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,32 +29,25 @@ public class SucursalServiceImpl implements SucursalService {
 	}
 
 	@Override
-	public List<SucursalDTO> getMySucursalDTOList() {
+	public List<SucursalDTO> getListaSucursales() {
 		// TODO Auto-generated method stub
-        List<Sucursal> sucursal1      = new ArrayList<>();
+   
         List<SucursalDTO> sucursalDTO = new ArrayList<>();
+        List<Sucursal> sucursales = new ArrayList<>();
+        sucursalRepository.findAll().forEach(sucursales::add);
    
         
         
-        List<Sucursal> todoList= new ArrayList<>();
-        sucursalRepository.findAll().forEach(todoList::add);
-
-//        return  todoList;
- 
-        for ( Sucursal sucursal : todoList) {
-   
+        for ( Sucursal sucursal : sucursales) {
         	
-        	
- 		   SucursalDTO   sucursaldto =  new SucursalDTO(); 
+        	   SucursalDTO   sucursaldto =  new SucursalDTO(); 
  			
  			   sucursaldto.setNomSucursal(sucursal.getNomSucursal());
  			   sucursaldto.setPaisSucursal(sucursal.getPaisSucursal());
    	           sucursaldto.setPk_SucursalID(sucursal.getPk_SucursalID());
+   	           sucursaldto.setTipoSucursal(sucursal.getPaisSucursal());
  		       sucursalDTO.add(sucursaldto);
  		       sucursaldto = null;
-        	
-        	
-        	
         }
         return  sucursalDTO;
 	}
@@ -66,12 +60,11 @@ public class SucursalServiceImpl implements SucursalService {
 		SucursalDTO sucursaldto =  new SucursalDTO();
 		
 		if (sucursal.isPresent()) {
- 
+
+			sucursaldto.setPk_SucursalID(sucursalId);
 			sucursaldto.setNomSucursal( sucursal.get().getNomSucursal());
-			
 			sucursaldto.setPaisSucursal(sucursal.get().getPaisSucursal());
-			sucursaldto.setPk_SucursalID(sucursalId);;
-					
+            sucursaldto.setTipoSucursal(sucursal.get().getPaisSucursal());		
 			return Optional.of(sucursaldto);
 		} 
 		return Optional.empty();
@@ -81,19 +74,22 @@ public class SucursalServiceImpl implements SucursalService {
 	}
 
 	@Override
-	public long AddItemToThelist(SucursalDTO sucursal) {
+	public long AltaSucursal(SucursalDTO sucursaldto) {
 		// TODO Auto-generated method stub
-				
-		   Sucursal  sucursal2  =  new Sucursal(); 
-		
-		   sucursal2.setNomSucursal(sucursal.getNomSucursal());
-		   sucursal2.setPaisSucursal(sucursal.getPaisSucursal());
-//		   sucursal2.setPk_SucursalID(getNumberSucursalDTOItem());
+
 	       long sucursalId=0;
-	        sucursalRepository.save(sucursal2);
-	        sucursalId=sucursal2.getPk_SucursalID();
-	        sucursal.setPk_SucursalID(sucursalId);
-	        return sucursalId;
+		   Sucursal  sucursal  =  new Sucursal(); 
+		
+		   sucursal.setNomSucursal(sucursaldto.getNomSucursal());
+		   sucursal.setPaisSucursal(sucursaldto.getPaisSucursal());
+	 
+		   
+		   sucursalRepository.save(sucursal);
+ 
+	 
+	       sucursalId=sucursal.getPk_SucursalID();
+	       sucursal.setPk_SucursalID(sucursalId);
+	       return sucursalId;
   
 	}
 
@@ -109,24 +105,18 @@ public class SucursalServiceImpl implements SucursalService {
 	public long UpdateSucursalDTOItem(long sucursalId, SucursalDTO sucursal) {
 		// TODO Auto-generated method stub
 		Optional<Sucursal> sucursalrespositorio  =  sucursalRepository.findById(sucursalId);
-//		SucursalDTO sucursaldto =  new SucursalDTO();
 		
 		if (sucursalrespositorio.isPresent()) {
- 
 			sucursalrespositorio.get().setNomSucursal( sucursal.getNomSucursal());
-			
 			sucursalrespositorio.get().setPaisSucursal(sucursal.getPaisSucursal());
-//			sucursaldto.setPk_SucursalID(sucursalId);;
-					
 	        sucursalRepository.save(sucursalrespositorio.get());	
-	        		return 1;
+	       	return 1;
 		} 
 		return 0;
-		
 	}
 
 	@Override
-	public boolean isSucursalDTOItemIdValid(long sucursalId) {
+	public boolean existeSucursalByID(long sucursalId) {
 		// TODO Auto-generated method stub
 		 return sucursalRepository.findById(sucursalId).isPresent();
 	}
@@ -137,4 +127,11 @@ public class SucursalServiceImpl implements SucursalService {
 	      return sucursalRepository.count();
 	}
 
+		@Override
+		public boolean findBynomSucursal(String nomSucursal) {
+			// TODO Auto-generated method stub
+			 return sucursalRepository.findBynomSucursal(nomSucursal).isPresent();
+		}
+
+	
 }

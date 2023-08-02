@@ -5,6 +5,7 @@ package cat.itacademy.barcelonactiva.escobarjulia.andres.s05.t01.n01.model.servi
 import org.springframework.stereotype.Service;
 
 import cat.itacademy.barcelonactiva.escobarjulia.andres.s05.t01.n01.dto.SucursalDTO;
+import cat.itacademy.barcelonactiva.escobarjulia.andres.s05.t01.n01.model.domain.Sucursal;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,27 +16,17 @@ import java.util.Optional;
 public interface SucursalService {
 
  
-    /**
-     * Retrieve to-do list
-     * @return
-     */
-   List<SucursalDTO> getMySucursalDTOList();
-    
-
-
-    /**
-     * retrieve to-do item
-     * @param sucursalId
-     * @return
-     */
-     Optional<SucursalDTO> GetSucursalDTOByID(long sucursalId);
+ 
+   List<SucursalDTO> getListaSucursales();
+ 
+   Optional<SucursalDTO> GetSucursalDTOByID(long sucursalId);
 
     /**
      * Add item to the list and return the id of the new item
      * @param sucursal
      * @return
      */
-    long AddItemToThelist(SucursalDTO sucursal);
+    long AltaSucursal(SucursalDTO sucursal);
 
 
 
@@ -59,7 +50,7 @@ public interface SucursalService {
      * @param sucursalId
      * @return
      */
-    boolean isSucursalDTOItemIdValid(long sucursalId);
+    boolean existeSucursalByID(long sucursalId);
    
 
     /**
@@ -69,7 +60,9 @@ public interface SucursalService {
     long getNumberSucursalDTOItem();
 
 
-    
+
+	 boolean findBynomSucursal(String nomSucursal);
+	
 }
 
 

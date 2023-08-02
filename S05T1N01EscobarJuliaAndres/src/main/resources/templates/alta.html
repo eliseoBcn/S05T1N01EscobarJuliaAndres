@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+
+	<head th:replace="plantilla/template :: head" >
+
+<body>
+	<header th:replace="plantilla/template :: header" >
+ 
+	</header>
+	<div class="container">
+		<div class="row">
+
+			<h1> Alta  Sucursales </h1>
+		</div>
+ 
+ 
+ 				 <form th:action="@{/sucursales/guardar}" th:object="${sucursal}" method="POST">
+				
+					<div class="form-group">
+						<label>Nombre Sucursal:</label>
+						<br>
+						<input type="text" name="nomSucursal" th:field="*{nomSucursal}" class="form-control" placeholder="Nombre sucursal ">
+					</div>
+ 					<div class="form-group">
+						<label>Pais :</label>
+						<br>
+						<input type="text" name="paisSucursal" th:field="*{paisSucursal}" class="form-control" placeholder="Pais sucursal ">
+					</div>
+<!-- 				 <input type="submit" value="Submit">-->
+
+					<label  th:text="${error}" >   </label>
+				       
+				<br>
+				<button type="submit" class="btn btn-primary">Guardar</button>
+				</form>
+ 
+ 
+ 
+	</div>
+		<footer  th:replace="plantilla/template :: footer" >
+		</footer>
+</body>
+
+</html>

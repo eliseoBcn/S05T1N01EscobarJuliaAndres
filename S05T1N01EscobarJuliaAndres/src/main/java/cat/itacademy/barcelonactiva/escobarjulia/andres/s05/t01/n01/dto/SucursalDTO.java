@@ -1,27 +1,22 @@
 package cat.itacademy.barcelonactiva.escobarjulia.andres.s05.t01.n01.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "sucursal")
-
+ 
 public class SucursalDTO {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+/*  Pojo entidad Sucursal + tipoSucursal */ 
 	private long pk_SucursalID;
 
-	@Column(name = "nomSucursal")
 	private String nomSucursal;
 
-	@Column(name = "paisSucursal")
-	private int paisSucursal;
+	private String  paisSucursal;
+
+	private String tipusSucursal;
 	
+	private String[] listaPaises= {
+			"Alemania", "Belgica", "Croacia", "Dinamarca", "España", "Francia", "Irlanda", "Letonia", 
+			"Luxemburgo", "Paises Bajos", "Suecia", "Bulgaria", "Eslovaquia", "Estonia", "Grecia", "Malta",
+			"Polonia", "Republica Checa", "Austria", "Chipre", "Eslovenia", "Finlandia", "Hungría", "Italia", 
+			"Lituania", "Portugal","Rumanía"};
+
 	public SucursalDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -42,13 +37,31 @@ public class SucursalDTO {
 		this.nomSucursal = nomSucursal;
 	}
 
-	public int getPaisSucursal() {
+	public String  getPaisSucursal() {
 		return paisSucursal;
 	}
-	public void setPaisSucursal(int paisSucursal) {
+	public void setPaisSucursal(String  paisSucursal) {
 		this.paisSucursal = paisSucursal;
 	}
 
+	public String getTipusSucursal( ) {
+		return tipusSucursal;
+	}
+	public void  setTipoSucursal(String paisSucursal) {
+		tipusSucursal = "Fora UE";
+		
+		int i = 0;
+		while (i  < listaPaises.length && tipusSucursal.equals("Fora UE") ) {
+			
+			if( paisSucursal.equalsIgnoreCase(listaPaises[i])) {
+				tipusSucursal = "UE";
+			}
+ 		  i++;
+		}
+		
+		
+	}
+	
 
 
 

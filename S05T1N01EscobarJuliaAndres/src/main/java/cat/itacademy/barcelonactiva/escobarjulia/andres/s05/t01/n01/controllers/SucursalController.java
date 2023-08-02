@@ -33,18 +33,18 @@ public class SucursalController {
 	SucursalService sucursalService;
 		
 	@PostMapping("/add")
-	public ResponseEntity<SucursalDTO> createSucursal(@RequestBody SucursalDTO sucursal) {
+	public ResponseEntity<SucursalDTO> createSucursal(@RequestBody SucursalDTO sucursaldto) {
         long sucursalId = 0;
-        System.out.println("sucursal" + sucursal );
-        sucursalId = sucursalService.AddItemToThelist(sucursal);
-
+        sucursalId = sucursalService.AltaSucursal(sucursaldto);
         if(sucursalId>0){
-			return new ResponseEntity<>(sucursal, HttpStatus.CREATED);
-
-        }else{
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-		
+    		Optional<SucursalDTO> sucursal  = sucursalService.GetSucursalDTOByID(sucursalId);
+    		if (sucursal.isPresent()) {
+    			// En el ejercicio pasado no se devolvia el  json con el id sino el objeto de entrada
+    			return new ResponseEntity<>(sucursal.get(), HttpStatus.CREATED);
+    		}
+    	}
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        
 	}
 	
 	@DeleteMapping("/delete/{id}")
@@ -63,7 +63,7 @@ public class SucursalController {
 	public ResponseEntity<SucursalDTO> updateSucursal(@PathVariable("id") long id, @RequestBody SucursalDTO sucursal) {
 	
     //verify if the id provided is valid before update
-    boolean isTodoIdValid=sucursalService.isSucursalDTOItemIdValid(id);
+    boolean isTodoIdValid=sucursalService.existeSucursalByID(id);
 
 		    if(isTodoIdValid){
 		        long sucursalId=0;
@@ -84,9 +84,9 @@ public class SucursalController {
 	@GetMapping("/getAll")
 	public ResponseEntity<List<SucursalDTO>> getAllSucursals(@RequestParam(required = false) String nombre) {
 		
-			List<SucursalDTO> sucursal  =  sucursalService.getMySucursalDTOList();
+			List<SucursalDTO> sucursal  =  sucursalService.getListaSucursales();
 			if ( sucursal.size() > 0 ) {
-				return new ResponseEntity<>( sucursalService.getMySucursalDTOList() , HttpStatus.OK);
+				return new ResponseEntity<>( sucursalService.getListaSucursales() , HttpStatus.OK);
 			}else {
 		        return new ResponseEntity(HttpStatus.NOT_FOUND) ;
 			}
