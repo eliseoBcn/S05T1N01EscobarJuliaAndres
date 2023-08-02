@@ -70,11 +70,16 @@ public class SucursalController {
 		        sucursalId=sucursalService.UpdateSucursalDTOItem(id,sucursal);
 		
 		        if(sucursalId>0){
-					return new ResponseEntity<>(sucursal , HttpStatus.OK);
-		        }else{
-		            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		        	
+		      		Optional<SucursalDTO> sucursaldto  = sucursalService.GetSucursalDTOByID(id);
+		    		if (sucursaldto.isPresent()) {
+		    			// En el ejercicio pasado no se devolvia el  json con el id sino el objeto de entrada
+		    			return new ResponseEntity<>(sucursaldto.get(), HttpStatus.CREATED);
+		    		}
 		        }
-		
+	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		        
 		    }else {
 		 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		    }
