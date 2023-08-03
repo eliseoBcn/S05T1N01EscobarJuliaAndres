@@ -1,7 +1,8 @@
 package cat.itacademy.barcelonactiva.escobarjulia.andres.s05.t01.n01.dto;
 
- 
-public class SucursalDTO {
+import java.io.Serializable;
+
+public class SucursalDTO implements Serializable  {
 /*  Pojo entidad Sucursal + tipoSucursal */ 
 	private long pk_SucursalID;
 
